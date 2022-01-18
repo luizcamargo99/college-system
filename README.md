@@ -1,4 +1,4 @@
-# MagniUniversity
+# MagniUniversity (Fictional College)
 
 Tech Stack: HTML, CSS, AngularJS, ASP NET MVC 5, C#, Entity Framework 6, LocalDB.
 
