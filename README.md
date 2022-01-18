@@ -47,7 +47,7 @@ And last but not least, the students screen, where we have in addition to the st
 
 ![alt text](https://i.ibb.co/Cb1DBdB/image.png) 
 
-In the edit/add mode, when selecting the course in the select, the table with the list of subjects of that course is automatically generated to fill in the student's grades in the subjects.
+In the edit/add mode, when selecting the course, the table with the list of subjects of that course is automatically generated to fill in the student's grades in the subjects.
 
 ![alt text](https://i.ibb.co/dK3GFVt/image.png) 
 
