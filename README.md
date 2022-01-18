@@ -37,4 +37,28 @@ On the teachers screen, when carrying out the search, the results are general in
 
 ![alt text](https://i.ibb.co/q7tZcNN/image.png) 
 
+Edit Teacher
+
+![alt text](https://i.ibb.co/4RJz1dC/image.png) 
+
+## Students
+
+And last but not least, the students screen, where we have in addition to the student's personal information, we have their current course, average grade in the related subjects. In addition to the CRUD options, it also has the report card.
+
+![alt text](https://i.ibb.co/Cb1DBdB/image.png) 
+
+In the edit/add mode, when selecting the course in the select, the table with the list of subjects of that course is automatically generated to fill in the student's grades in the subjects.
+
+![alt text](https://i.ibb.co/dK3GFVt/image.png) 
+
+If you select a course with no linked subjects, the message is displayed.
+
+![alt text](https://i.ibb.co/7QhyDKY/image.png) 
+
+Report Card
+
+![alt text](https://i.ibb.co/RY69MCp/image.png) 
+
+
+
 
