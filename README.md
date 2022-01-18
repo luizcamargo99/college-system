@@ -1,6 +1,6 @@
 # MagniUniversity (Fictional College)
 
-Tech Stack: HTML, CSS, AngularJS, ASP NET MVC 5, C#, Entity Framework 6, LocalDB.
+Tech Stack: HTML, CSS, AngularJS, JQuery, ASP NET MVC 5, C#, Entity Framework 6, LocalDB.
 
 Patterns used: Repository, DTO, ViewModel, Dependency Injection.
 
