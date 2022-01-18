@@ -1,0 +1,179 @@
+﻿
+
+<head>
+    <script src="~/Scripts/js/AngularJS/Students/ctrlStudent.js"></script>
+    <script src="~/Scripts/js/AngularJS/Students/servStudent.js"></script>
+    <script src="~/Scripts/js/AngularJS/Courses/servCourse.js"></script>
+    <script src="~/Scripts/js/AngularJS/Shared/servShared.js"></script>
+</head>
+
+<div>
+    <div ng-controller="StudentController as ctrlStudent">
+
+        <script type="text/ng-template" id="modalTeacherInformation.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Report Card - {{ctrl.Student.Name}} ({{ctrl.CourseName}}) </h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                            <th>Situation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="subject in ctrl.SubjectsSelected" ng-if="ctrl.SubjectsSelected.length > 0">
+                            <td>{{subject.Name}}</td>
+                            <td>{{subject.Grade}}</td>
+                            <td ng-style=" subject.Grade >= 7 ? {'background-color':'green'} : {'background-color':'red'}" style="color: white">
+                            {{subject.Grade >= 7 ? 'Approved' : 'Disapproved'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" ng-click="ctrl.Close()">Close</button>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="modalAddEditStudent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ctrl.Title}} Student</h3>
+            </div>
+            <form class="modal-body col-lg-12" name="student">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="studentName" class="form-label">Student Name</label>
+                        <input type="text" required ng-class="{'textbox-error': !ctrl.Student.Name}" class="form-control form-control-user" id="studentName" placeholder="Mary" ng-model="ctrl.Student.Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="studentBirth"> Birth Date: </label>
+                        <input type="date" required ng-class="{'textbox-error': !ctrl.Student.BirthDate}" class="form-control form-control-user" id="studentBirth" placeholder="mm/dd/yyyy" ng-model="ctrl.Student.BirthDate ">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="course"> Course: </label>
+                        <select name="course" ng-change="ctrl.ChangeCourse()" id="course" ng-model="ctrl.CourseID" required class="form-control" ng-class="{'textbox-error': !ctrl.CourseID}"
+                                ng-options="item.Course.CourseID as item.Course.Name for item in ctrl.Courses">
+                            <option value="">Select a course...</option>
+                        </select>
+                        <span ng-if="ctrl.CourseID && ctrl.SubjectsSelected.length == 0" class="float-right">
+                        This course has no <a href="/Subject/Index">subject</a> yet.</span>
+                    </div>
+                </div>
+                <div class="table-responsive" ng-if="ctrl.CourseID && ctrl.SubjectsSelected.length > 0">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="subject in ctrl.SubjectsSelected track by $index" ng-if="ctrl.SubjectsSelected.length > 0">
+                                <td>{{subject.Name}}</td>
+                                <td>  <input type="range" required ng-class="{'textbox-error': !subject.Grade[$index]}" ng-maxlength="10" style="width: 85%" id="studentGrade" placeholder="10" ng-model="subject.Grade[$index]" min="0" max="10"><output id="grade" name="grade" for="studentGrade">{{subject.Grade[$index]}}</output></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-disabled="student.$invalid || ctrl.SubjectsSelected.length == 0" ng-click="ctrl.Save()">{{ctrl.Title}}</button>
+                    <button class="btn btn-danger" ng-click="ctrl.Cancel()">Cancel</button>
+                </div>
+            </form>
+        </script>
+
+        <div class="col-lg-12">
+            <h1 class="h3 mb-2 text-gray-800">{{ctrlStudent.Title}}</h1>
+        </div>
+
+        <div class="p-5">
+            <form class="col-lg-12">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="studentName" class="form-label">Student Name</label>
+                        <input type="text" class="form-control form-control-user" id="studentName" placeholder="Michael" ng-enter-press="ctrlStudent.Search()" ng-model="ctrlStudent.Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label"></label>
+                        <a class="marginBtn btn btn-primary btn-user btn-block" ng-click="ctrlStudent.Search()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            Search
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label"> </label>
+                        <a class="marginBtn btn btn-success btn-user btn-block" ng-click="ctrlStudent.AddStudent()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            Add Student
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card shadow mb-4 col-lg-12">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">List of Students</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Birth Date</th>
+                                <th>Course</th>
+                                <th>Average Grade</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="model in ctrlStudent.StudentViewModel" ng-if="ctrlStudent.StudentViewModel.length > 0">
+                                <td>{{model.Student.Name}}</td>
+                                <td>{{model.Student.BirthDate | filter : 'MM-dd-yyyy'}}</td>
+                                <td>{{model.CourseName}}</td>
+                                <td>{{model.AverageGrade}}</td>
+                                <td>
+                                    <a class="marginBtn btn btn-primary btn-user btn-block" ng-click="ctrlStudent.ReportCard(model)">
+                                        Report Card
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="marginBtn btn btn-warning btn-user btn-block" ng-click="ctrlStudent.EditStudent(model)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </span>
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="marginBtn btn btn-danger btn-user btn-block" ng-click="ctrlStudent.DeleteStudent(model)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="ctrlStudent.StudentViewModel.length == 0 || !ctrlStudent.StudentViewModel" style="text-align:center;">
+                        <p>No data to show</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

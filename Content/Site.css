@@ -1,0 +1,23 @@
+﻿
+.blurModal {
+    filter: opacity(30%);
+}
+
+.textbox-error {
+    border-color: #dd191d !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 6px #dd191d !important;
+}
+
+    .textbox-error:focus {
+        border-color: #dd191d !important;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 6px #dd191d !important;
+    }
+
+.marginBtn {
+    margin-top: 2% !important;
+}
+
+.money-prefixed {
+    font-size: .9em;
+    padding: 10px;
+}

@@ -1,0 +1,133 @@
+﻿
+
+<head>
+    <script src="~/Scripts/js/AngularJS/Teachers/ctrlTeacher.js"></script>
+    <script src="~/Scripts/js/AngularJS/Teachers/servTeacher.js"></script>
+     <script src="~/Scripts/js/AngularJS/Shared/servShared.js"></script>
+</head>
+
+<div>
+    <div ng-controller="TeacherController as ctrlTeacher">
+
+        <script type="text/ng-template" id="modalAddEditTeacher.html">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ctrl.Title}} Teacher</h3>
+            </div>
+            <form class="modal-body col-lg-12" name="teacher">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="teacherName" class="form-label">Teacher's Name</label>
+                        <input type="text" required ng-class="{'textbox-error': !ctrl.Teacher.Name}" class="form-control form-control-user" id="teacherName" placeholder="Mayara" ng-model="ctrl.Teacher.Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="teacherSalary" class="form-label">Salary</label>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="money-prefixed">EUR </td>
+                                    <td>
+                                        <input type="number" required ng-class="{'textbox-error': !ctrl.Teacher.Salary}" class="form-control form-control-user" id="teacherSalary" placeholder="1000.00" ng-model="ctrl.Teacher.Salary">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="teacherBirth" class="form-label">Birth Date</label>
+                        <input type="date" required ng-class="{'textbox-error': !ctrl.Teacher.BirthDate}" class="form-control form-control-user" id="teacherBirth" placeholder="mm/dd/yyyy" ng-model="ctrl.Teacher.BirthDate">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-disabled="teacher.$invalid" ng-click="ctrl.Save()">{{ctrl.Title}}</button>
+                    <button class="btn btn-danger" ng-click="ctrl.Cancel()">Cancel</button>
+                </div>
+            </form>
+        </script>
+
+        <div class="col-lg-12">
+            <h1 class="h3 mb-2 text-gray-800">{{ctrlTeacher.Title}}</h1>
+        </div>
+
+        <div class="p-5">
+            <form class="col-lg-12">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="courseName" class="form-label">Teacher's Name</label>
+                        <input type="text" class="form-control form-control-user" id="teacherName" placeholder="Paul" ng-enter-press="ctrlTeacher.Search()" ng-model="ctrlTeacher.Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label"></label>
+                        <a class="marginBtn btn btn-primary btn-user btn-block" ng-click="ctrlTeacher.Search()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            Search
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label"> </label>
+                        <a class="marginBtn btn btn-success btn-user btn-block" ng-click="ctrlTeacher.AddTeacher()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            Add Teacher
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card shadow mb-4 col-lg-12">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Teachers List</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Teacher</th>
+                                <th>Birth Date</th>
+                                <th>Salary</th>
+                                <th class="col-sm-3">Number of Subjects Teaching</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="teacher in ctrlTeacher.TeacherViewModel" ng-if="ctrlTeacher.TeacherViewModel.length > 0">
+                                <td>{{teacher.Name}}</td>
+                                <td>{{teacher.BirthDate | filter : 'MM-dd-yyyy'}}</td>
+                                <td>EUR {{teacher.Salary}}</td>
+                                <td>{{teacher.Subjects.length}}</td>
+                                <td>
+                                    <a class="marginBtn btn btn-warning btn-user btn-block" ng-click="ctrlTeacher.EditTeacher(teacher)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </span>
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <button class="marginBtn btn btn-danger btn-user btn-block" ng-disabled="teacher.Subjects.length > 0" ng-click="ctrlTeacher.DeleteTeacher(teacher)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="ctrlTeacher.TeacherViewModel.length == 0 || !ctrlTeacher.TeacherViewModel" style="text-align:center;">
+                        <p>No data to show</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

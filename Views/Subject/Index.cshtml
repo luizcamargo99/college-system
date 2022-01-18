@@ -1,0 +1,148 @@
+﻿
+
+<head>
+    <script src="~/Scripts/js/AngularJS/Subjects/ctrlSubject.js"></script>
+    <script src="~/Scripts/js/AngularJS/Subjects/servSubject.js"></script>
+    <script src="~/Scripts/js/AngularJS/Shared/servShared.js"></script>
+</head>
+
+<div>
+    <div ng-controller="SubjectController as ctrlSubject">
+
+        <script type="text/ng-template" id="modalTeacherInformation.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Teacher Information - {{ctrl.Teacher.Name}} </h3>
+            </div>
+            <form class="modal-body col-lg-12" name="subject">
+                <div class="col-sm-4">
+                    <p>Teacher's Name: {{ctrl.Teacher.Name}}</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Salary: EUR {{ctrl.Teacher.Salary}}</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Birth Date: {{ctrl.Teacher.BirthDate | filter: 'MM-dd-yyyy'}}</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-danger" ng-click="ctrl.Close()">Close</button>
+                </div>
+            </form>
+        </script>
+
+        <script type="text/ng-template" id="modalAddEditSubject.html">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ctrl.Title}} Subject</h3>
+            </div>
+            <form class="modal-body col-lg-12" name="subject">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="subjectName" class="form-label">Subject Name</label>
+                        <input type="text" required ng-class="{'textbox-error': !ctrl.Subject.Name}" class="form-control form-control-user" id="teacherName" placeholder="Programming Logic" ng-model="ctrl.Subject.Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="course"> Course: </label>
+                        <select name="course" id="course" ng-model="ctrl.Subject.CourseID" required class="form-control" ng-class="{'textbox-error': !ctrl.Subject.CourseID}"
+                                ng-options="item.CourseID as item.Name for item in ctrl.ViewModel.Courses">
+                            <option value="">Select a course...</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="teacher"> Teacher: </label>
+                        <select name="teacher" id="teacher" ng-model="ctrl.Subject.TeacherID" required class="form-control" ng-class="{'textbox-error': !ctrl.Subject.TeacherID}"
+                                ng-options="item.TeacherID as item.Name for item in ctrl.ViewModel.Teachers">
+                            <option value="">Select a teacher...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-disabled="subject.$invalid" ng-click="ctrl.Save()">{{ctrl.Title}}</button>
+                    <button class="btn btn-danger" ng-click="ctrl.Cancel()">Cancel</button>
+                </div>
+            </form>
+        </script>
+
+        <div class="col-lg-12">
+            <h1 class="h3 mb-2 text-gray-800">{{ctrlSubject.Title}}</h1>
+        </div>
+
+        <div class="p-5">
+            <form class="col-lg-12">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="subjectName" class="form-label">Subject Name</label>
+                        <input type="text" class="form-control form-control-user" id="subjectName" placeholder="Criminal Law" ng-enter-press="ctrlSubject.Search()" ng-model="ctrlSubject.Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label"></label>
+                        <a class="marginBtn btn btn-primary btn-user btn-block" ng-click="ctrlSubject.Search()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            Search
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label"> </label>
+                        <a class="marginBtn btn btn-success btn-user btn-block" ng-click="ctrlSubject.AddSubject()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            Add Subject
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card shadow mb-4 col-lg-12">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">List of Subjects</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Course</th>
+                                <th>Teacher Information</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="subject in ctrlSubject.SubjectsViewModel" ng-if="ctrlSubject.SubjectsViewModel.length > 0">
+                                <td>{{subject.Name}}</td>
+                                <td>{{subject.Course.Name}}</td>
+                                <td><a ng-click="ctrlSubject.TeacherInformation(subject.Teacher)">{{subject.Teacher.Name}}</a></td>
+                                <td>
+                                    <a class="marginBtn btn btn-warning btn-user btn-block" ng-click="ctrlSubject.EditSubject(subject)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </span>
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="marginBtn btn btn-danger btn-user btn-block" ng-click="ctrlSubject.DeleteSubject(subject)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="ctrlSubject.SubjectsViewModel.length == 0 || !ctrlSubject.SubjectsViewModel" style="text-align:center;">
+                        <p>No data to show</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,116 @@
+﻿
+
+<head>
+    <script src="~/Scripts/js/AngularJS/Courses/ctrlCourse.js"></script>
+    <script src="~/Scripts/js/AngularJS/Courses/servCourse.js"></script>
+    <script src="~/Scripts/js/AngularJS/Shared/servShared.js"></script>
+</head>
+
+<div>
+    <div ng-controller="CourseController as ctrlCourse">
+
+        <script type="text/ng-template" id="modalAddEditCourse.html">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ctrl.Title}} Course</h3>
+            </div>
+            <form class="modal-body col-lg-12" name="course">
+                <div class="modal-body">
+                    <div class="col-sm-4">
+                        <label for="courseName" class="form-label">Course Name</label>
+                        <input type="text" required ng-class="{'textbox-error': !ctrl.Course.Name}" class="form-control form-control-user" id="courseName" placeholder="Medicine" ng-model="ctrl.Course.Name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-disabled="course.$invalid" ng-click="ctrl.Save()">{{ctrl.Title}}</button>
+                    <button class="btn btn-danger" ng-click="ctrl.Cancel()">Cancel</button>
+                </div>
+            </form>
+        </script>
+
+        <div class="col-lg-12">
+            <h1 class="h3 mb-2 text-gray-800">{{ctrlCourse.Title}}</h1>
+        </div>
+
+        <div class="p-5">
+            <form class="col-lg-12">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="courseName" class="form-label">Course Name</label>
+                        <input type="text" class="form-control form-control-user" id="courseName" placeholder="Information Systems" ng-enter-press="ctrlCourse.Search()" ng-model="ctrlCourse.Query">
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label"></label>
+                        <a class="marginBtn btn btn-primary btn-user btn-block" ng-click="ctrlCourse.Search()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            Search
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label"> </label>
+                        <a class="marginBtn btn btn-success btn-user btn-block" ng-click="ctrlCourse.AddCourse()">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            Add Course
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card shadow mb-4 col-lg-12">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Course List</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Number of Subjects</th>
+                                <th>Number of Teachers</th>
+                                <th>Number of Students</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="model in ctrlCourse.CourseViewModel" ng-if="ctrlCourse.CourseViewModel.length > 0">
+                                <td>{{model.Course.Name}}</td>
+                                <td>{{model.NumberOfSubjects }}</td>
+                                <td>{{model.NumberOfTeachers }}</td>
+                                <td>{{model.NumberOfStudents }}</td>
+
+                                <td>
+                                    <a class="marginBtn btn btn-warning btn-user btn-block" ng-click="ctrlCourse.EditCourse(model.Course)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </span>
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <button class="marginBtn btn btn-danger btn-user btn-block" ng-disabled="model.NumberOfSubjects > 0 || model.NumberOfStudents > 0" ng-click="ctrlCourse.DeleteCourse(model.Course)">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="ctrlCourse.CourseViewModel.length == 0 || !ctrlCourse.CourseViewModel" style="text-align:center;">
+                        <p>No data to show</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
