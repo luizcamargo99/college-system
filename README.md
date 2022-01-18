@@ -23,10 +23,18 @@ The subjects screen gives us several important information, such as the course o
 
 ![alt text](https://i.ibb.co/C17wknh/image.png)
 
-By clicking on the teacher's name, we can go to a modal where it has information about the teacher in question.
+By clicking on the teacher's name, we can go to a modal where it has information about the teacher.
 
 ![alt text](https://i.ibb.co/1LMNHw8/image.png)
 
 Subject Registration
 
 ![alt text](https://i.ibb.co/pdSQDTH/image.png) 
+
+## Teachers 
+
+On the teachers screen, when carrying out the search, the results are general information about the teacher, such as: Date of Birth, Salary, and even the number of subjects he is teaching.
+
+![alt text](https://i.ibb.co/q7tZcNN/image.png) 
+
+
